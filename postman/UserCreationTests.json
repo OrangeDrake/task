@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "d302bfbc-4be7-4bbc-a582-3f571ebc0af4",
+		"name": "User Creation Tests",
+		"description": "Test suite for creating users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17117872"
+	},
+	"item": [
+		{
+			"name": "Valid User Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should create user successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property(\"id\");",
+							"    pm.expect(responseJson.name).to.eql(\"ValidName\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"ValidName\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Missing Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with missing name\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property(\"errors\");",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"    pm.expect(responseJson.errors.name).to.include(\"Name is mandatory\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Short Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with short name\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property(\"errors\");",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"    pm.expect(responseJson.errors.name).to.include(\"Name must be between 2 and 127 characters\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"A\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Long Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with long name\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property(\"errors\");",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"    pm.expect(responseJson.errors.name).to.include(\"Name must be between 2 and 127 characters\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alphanumeric Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should create user successfully with alphanumeric name\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property(\"id\");",
+							"    pm.expect(responseJson.name).to.eql(\"Name123\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Name123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Special Characters in Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with name containing special characters\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property(\"errors\");",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"    pm.expect(responseJson.errors.name).to.include(\"Name must be alphanumeric and cannot contain special characters\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Invalid@Name\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

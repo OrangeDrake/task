@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import petrfiala.task.entity.User;
 import petrfiala.task.service.UserService;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -22,5 +22,11 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+        User createdUser = userService.saveUser(user);
+        return ResponseEntity.ok(createdUser);
     }
 }
