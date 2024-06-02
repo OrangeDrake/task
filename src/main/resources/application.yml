@@ -2,8 +2,15 @@ server:
   port: 8099
 
 spring:
+
+  security:
+    user:
+      name: admin
+      password: password
+      roles: ADMIN
+
   datasource:
-    url: jdbc:postgresql://localhost:5434/task
+    url: jdbc:postgresql://localhost:5432/task
     username: postgres
     password: postgre
   jpa:
@@ -13,3 +20,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    org.springframework.security: DEBUG
