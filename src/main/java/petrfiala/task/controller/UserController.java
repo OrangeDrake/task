@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petrfiala.task.entity.User;
+import petrfiala.task.model.UserWithoutPassword;
 import petrfiala.task.service.UserService;
 
 import javax.validation.Valid;
@@ -16,8 +17,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<UserWithoutPassword> getUserById(@PathVariable Long id) {
+        UserWithoutPassword user = userService.getUserById(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
