@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "463a367b-f302-4eb3-a920-3bbf7c966ae7",
+		"name": "User Management Tests - Invalid Scenarios",
+		"description": "Test suite for creating users with invalid data",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17117872"
+	},
+	"item": [
+		{
+			"name": "Create User with Missing Fields",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with missing fields\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"    pm.expect(responseJson.errors).to.have.property(\"username\");",
+							"    pm.expect(responseJson.errors).to.have.property(\"password\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Empty Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with empty name\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"\",\n  \"username\": \"emptyname\",\n  \"password\": \"emptynamePass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Short Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with short name\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"A\",\n  \"username\": \"shortname\",\n  \"password\": \"shortnamePass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Long Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with long name\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\",\n  \"username\": \"longname\",\n  \"password\": \"longnamePass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Non-Alphanumeric Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with non-alphanumeric name\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"name\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Invalid@Name\",\n  \"username\": \"nonalphanumeric\",\n  \"password\": \"validPass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Empty Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with empty username\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"username\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Valid Name\",\n  \"username\": \"\",\n  \"password\": \"validPass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Short Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with short username\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"username\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Valid Name\",\n  \"username\": \"aa\",\n  \"password\": \"validPass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Long Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with long username\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"username\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Valid Name\",\n  \"username\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"password\": \"validPass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Non-Alphanumeric Username",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with non-alphanumeric username\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"username\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Valid Name\",\n  \"username\": \"invalid@username\",\n  \"password\": \"validPass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Empty Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with empty password\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"password\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Valid Name\",\n  \"username\": \"emptypassword\",\n  \"password\": \"\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Short Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should fail with short password\", function () {",
+							"    pm.response.to.have.status(400);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.errors).to.have.property(\"password\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Valid Name\",\n  \"username\": \"shortpassword\",\n  \"password\": \"short\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

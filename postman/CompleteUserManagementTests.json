@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "bc3e3476-458c-419d-97e6-792805c9122d",
+		"name": "User Management Tests - Full Scenario",
+		"description": "Test suite for creating, retrieving and deleting a user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17117872"
+	},
+	"item": [
+		{
+			"name": "Create Regular User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Regular user created successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.environment.set(\"regularUserId\", responseJson.id);",
+							"    const userAuth = btoa('regularuser:userPass123');",
+							"    pm.environment.set('userAuth', userAuth);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4="
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Regular User\",\n  \"username\": \"regularuser\",\n  \"password\": \"userPass123\"\n}"
+				},
+				"url": {
+					"raw": "{{server}}/api/users",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Regular User Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Should retrieve regular user data successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.response.to.be.json;",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson).to.have.property(\"id\");",
+							"    pm.expect(responseJson).to.have.property(\"name\");",
+							"    pm.expect(responseJson).to.have.property(\"username\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{userAuth}}"
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/users/{{regularUserId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"{{regularUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Regular User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Regular user deleted successfully\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4="
+					}
+				],
+				"url": {
+					"raw": "{{server}}/api/admin/deleteUser/{{regularUserId}}",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"deleteUser",
+						"{{regularUserId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
